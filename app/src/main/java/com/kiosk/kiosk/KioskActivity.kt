@@ -1,6 +1,8 @@
 package com.kiosk.kiosk
 
+import android.content.Context
 import android.app.admin.DevicePolicyManager
+import android.content.SharedPreferences
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
@@ -8,6 +10,7 @@ import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
 import android.webkit.WebView
@@ -22,14 +25,23 @@ import com.kiosk.adminlocktasktest.R
 
 class KioskActivity : AppCompatActivity() {
 
-    companion object {
-        const val URL = "https://android.com"
-    }
-
     private lateinit var webView: WebView
     private lateinit var reloadOnConnected: ReloadOnConnected
     private lateinit var adminComponentName: ComponentName
     private lateinit var policyManager: DevicePolicyManager
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var startUrl: String
+    private lateinit var serverUrl: String
+
+    private var clickCounter = 0
+    private val MAX_CLICK_COUNT = 10
+    private val resetDelayMs: Long = 3000 // 5秒
+    private val resetClickCountRunnable = Runnable {
+        clickCounter = 0
+    }
+
+    private val resetClickCountHandler = android.os.Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +49,11 @@ class KioskActivity : AppCompatActivity() {
 
         showInFullScreen(findViewById(R.id.root))
         initVars()
+
+        sharedPreferences = getSharedPreferences("config", Context.MODE_PRIVATE)
+        startUrl = sharedPreferences.getString("startUrl", "") ?: ""
+        serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
+
         setupWebView()
         listenToConnectionChange()
     }
@@ -56,6 +73,8 @@ class KioskActivity : AppCompatActivity() {
     override fun onDestroy() {
         if (::reloadOnConnected.isInitialized)
             reloadOnConnected.onActivityDestroy()
+
+        resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
         super.onDestroy()
     }
 
@@ -90,7 +109,22 @@ class KioskActivity : AppCompatActivity() {
         }
         webView.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         webView.isScrollbarFadingEnabled = false
-        webView.loadUrl(URL)
+        webView.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if (event?.action == MotionEvent.ACTION_DOWN) {
+                    clickCounter++
+                    resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
+                    resetClickCountHandler.postDelayed(resetClickCountRunnable, resetDelayMs)
+                    if (clickCounter >= MAX_CLICK_COUNT) {
+                        showSettingsActivity()
+                        resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
+                        clickCounter = 0
+                    }
+                }
+                return false
+            }
+        })
+        webView.loadUrl(startUrl)
     }
 
     private fun listenToConnectionChange() = reloadOnConnected.onActivityCreate(this)
@@ -124,6 +158,11 @@ class KioskActivity : AppCompatActivity() {
                     or BatteryManager.BATTERY_PLUGGED_USB
                     or BatteryManager.BATTERY_PLUGGED_WIRELESS).toString()
         )
+    }
+
+    private fun showSettingsActivity() {
+        val intent = Intent(this, SettingsActivity::class.java)
+        startActivity(intent)
     }
 
 }
