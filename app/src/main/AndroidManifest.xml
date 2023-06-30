@@ -14,11 +14,11 @@
         android:testOnly="true"
         android:theme="@style/Theme.AdminLockTaskTest">
         <activity
-            android:name="com.kiosk.kiosk.SettingsActivity"
+            android:name="com.grusio.kiosk.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.kiosk.kiosk.KioskActivity"
+            android:name="com.grusio.kiosk.KioskActivity"
             android:exported="true"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
@@ -32,7 +32,7 @@
         </activity>
 
         <receiver
-            android:name="com.kiosk.kiosk.AdminReceiver"
+            android:name="com.grusio.kiosk.AdminReceiver"
             android:description="@string/admin_description"
             android:exported="true"
             android:label="@string/app_name"

@@ -1,4 +1,4 @@
-package com.kiosk.kiosk
+package com.grusio.kiosk
 
 import android.app.admin.DeviceAdminReceiver
 import android.content.ComponentName

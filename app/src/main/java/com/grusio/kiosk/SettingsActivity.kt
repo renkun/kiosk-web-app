@@ -1,4 +1,4 @@
-package com.kiosk.kiosk
+package com.grusio.kiosk
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.preference.PreferenceFragmentCompat
-import com.kiosk.adminlocktasktest.R
+import com.grusio.adminlocktask.R
 
 class SettingsActivity : AppCompatActivity() {
 

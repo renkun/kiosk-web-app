@@ -1,4 +1,4 @@
-package com.kiosk.kiosk
+package com.grusio.kiosk
 
 import android.content.Context
 import android.app.admin.DevicePolicyManager
@@ -20,7 +20,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-import com.kiosk.adminlocktasktest.R
+import com.grusio.adminlocktask.R
 
 
 class KioskActivity : AppCompatActivity() {
