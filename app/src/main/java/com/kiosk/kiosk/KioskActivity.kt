@@ -36,7 +36,7 @@ class KioskActivity : AppCompatActivity() {
 
     private var clickCounter = 0
     private val MAX_CLICK_COUNT = 10
-    private val resetDelayMs: Long = 3000 // 5秒
+    private val resetDelayMs: Long = 3000 // 3秒
     private val resetClickCountRunnable = Runnable {
         clickCounter = 0
     }

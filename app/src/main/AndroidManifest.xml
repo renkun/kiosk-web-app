@@ -14,10 +14,6 @@
         android:testOnly="true"
         android:theme="@style/Theme.AdminLockTaskTest">
         <activity
-            android:name="com.kiosk.kiosk.SettingsActivity2"
-            android:exported="false"
-            android:label="@string/title_activity_settings2" />
-        <activity
             android:name="com.kiosk.kiosk.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
