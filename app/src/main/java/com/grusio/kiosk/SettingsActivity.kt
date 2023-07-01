@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.preference.PreferenceFragmentCompat
 import com.grusio.adminlocktask.R
 
 class SettingsActivity : AppCompatActivity() {
@@ -26,7 +25,6 @@ class SettingsActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("config", Context.MODE_PRIVATE)
         val savedStartUrl = sharedPreferences.getString("startUrl", "")
         val savedServerUrl = sharedPreferences.getString("serverUrl", "")
-
 
         startUrlEditText.setText(savedStartUrl)
         serverUrlEditText.setText(savedServerUrl)

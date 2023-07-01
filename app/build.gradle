@@ -3,6 +3,11 @@ plugins {
     id 'kotlin-android'
 }
 
+ext {
+    APPCENTER_SECRET = '7ac50419-0d8a-4ff7-9901-25501ff07983'
+}
+
+
 android {
     compileSdk 31
 
@@ -14,6 +19,7 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "APPCENTER_SECRET", "\"${APPCENTER_SECRET}\"")
     }
 
     buildTypes {
@@ -33,6 +39,11 @@ android {
 }
 
 dependencies {
+
+    def appCenterSdkVersion = '5.0.0'
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-distribute:${appCenterSdkVersion}"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.3.1'

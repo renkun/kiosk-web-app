@@ -1,11 +1,11 @@
 package com.grusio.kiosk
 
-import android.content.Context
 import android.app.admin.DevicePolicyManager
-import android.content.SharedPreferences
 import android.content.ComponentName
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
@@ -20,8 +20,14 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+import com.grusio.adminlocktask.BuildConfig
 import com.grusio.adminlocktask.R
 
+import com.microsoft.appcenter.AppCenter
+import com.microsoft.appcenter.analytics.Analytics
+import com.microsoft.appcenter.crashes.Crashes
+import com.microsoft.appcenter.distribute.Distribute
+import com.microsoft.appcenter.distribute.UpdateTrack
 
 class KioskActivity : AppCompatActivity() {
 
@@ -36,7 +42,7 @@ class KioskActivity : AppCompatActivity() {
 
     private var clickCounter = 0
     private val MAX_CLICK_COUNT = 10
-    private val resetDelayMs: Long = 3000 // 3秒
+    private val resetDelayMs: Long = 2000 // 2秒
     private val resetClickCountRunnable = Runnable {
         clickCounter = 0
     }
@@ -50,12 +56,16 @@ class KioskActivity : AppCompatActivity() {
         showInFullScreen(findViewById(R.id.root))
         initVars()
 
-        sharedPreferences = getSharedPreferences("config", Context.MODE_PRIVATE)
+        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
         startUrl = sharedPreferences.getString("startUrl", "") ?: ""
         serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
 
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+
         setupWebView()
         listenToConnectionChange()
+
+        initAppCenter()
     }
 
     override fun onResume() {
@@ -95,6 +105,24 @@ class KioskActivity : AppCompatActivity() {
         policyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
     }
 
+    private fun initAppCenter() {
+
+        val appSecret: String? = BuildConfig.APPCENTER_SECRET as? String
+        if (appSecret != null) {
+            AppCenter.start(
+                application, appSecret,
+                Analytics::class.java, Crashes::class.java, Distribute::class.java
+            )
+
+            // 配置自动更新的设置
+            Distribute.setEnabledForDebuggableBuild(true) // 允许在调试版本中使用自动更新（可选）
+//            Distribute.setInstallUrl("<Your-Install-URL>") // 设置自定义的安装 URL（可选）
+            Distribute.setUpdateTrack(UpdateTrack.PUBLIC) // 设置更新跟踪策略，可以根据需要修改
+            Distribute.setEnabled(true) // 启用自动更新
+        } else {
+            println("AppCenter Secret not found.")
+        }
+    }
     private fun setupWebView() {
         webView.webViewClient = WebViewClient()
         with(webView.settings) {
