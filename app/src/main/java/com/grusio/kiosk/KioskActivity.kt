@@ -22,12 +22,12 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
 import com.grusio.adminlocktask.BuildConfig
 import com.grusio.adminlocktask.R
-
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
 import com.microsoft.appcenter.distribute.UpdateTrack
+
 
 class KioskActivity : AppCompatActivity() {
 
@@ -35,6 +35,8 @@ class KioskActivity : AppCompatActivity() {
     private lateinit var reloadOnConnected: ReloadOnConnected
     private lateinit var adminComponentName: ComponentName
     private lateinit var policyManager: DevicePolicyManager
+
+    private val REQUEST_ENABLE_DEVICE_ADMIN = 10032
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var startUrl: String
@@ -66,11 +68,13 @@ class KioskActivity : AppCompatActivity() {
         listenToConnectionChange()
 
         initAppCenter()
+
+        setupKiosk()
     }
 
     override fun onResume() {
         super.onResume()
-        setupKiosk()
+        startLockTask()
     }
 
     override fun onBackPressed() {
@@ -163,7 +167,9 @@ class KioskActivity : AppCompatActivity() {
             stayAwake()
             policyManager.setLockTaskPackages(adminComponentName, arrayOf(packageName))
         }
-        startLockTask()
+        else {
+            requestDeviceAdmin()
+        }
     }
 
     private fun setupAutoStart() {
@@ -186,6 +192,32 @@ class KioskActivity : AppCompatActivity() {
                     or BatteryManager.BATTERY_PLUGGED_USB
                     or BatteryManager.BATTERY_PLUGGED_WIRELESS).toString()
         )
+    }
+
+    private fun requestDeviceAdmin(){
+        /**
+         * @todo 需要深度获测试取权限后的操作。目前暂时使用指令来设置
+         * 	adb  shell dpm set-device-owner com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
+         * 	删除的指令是：
+         * 	adb shell dpm remove-active-admin com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
+         */
+//        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+//        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponentName)
+//        intent.putExtra(
+//            DevicePolicyManager.EXTRA_ADD_EXPLANATION,
+//            "Enable device administration"
+//        )
+//        startActivityForResult(intent, REQUEST_ENABLE_DEVICE_ADMIN)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_ENABLE_DEVICE_ADMIN) {
+            if (resultCode == RESULT_OK) {
+                // 设备管理器已启用
+            } else {
+                // 用户取消或拒绝启用设备管理器
+            }
+        }
     }
 
     private fun showSettingsActivity() {

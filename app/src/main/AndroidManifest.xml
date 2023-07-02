@@ -3,6 +3,9 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_ADMINS" />
 
     <application
         android:allowBackup="true"
@@ -20,11 +23,11 @@
         <activity
             android:name="com.grusio.kiosk.KioskActivity"
             android:exported="true"
+            android:lockTaskMode="if_whitelisted"
             android:screenOrientation="sensor"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -42,6 +45,7 @@
                 android:resource="@xml/device_admin_receiver" />
 
             <intent-filter>
+                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE" />
                 <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>

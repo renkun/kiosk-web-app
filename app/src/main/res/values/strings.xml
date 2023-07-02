@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">GViewer</string>
-    <string name="admin_description">This is brief info about Admin app</string>
+    <string name="admin_description">GViewer Admin app</string>
     <string name="title_activity_settings">Setting Page</string>
 </resources>
