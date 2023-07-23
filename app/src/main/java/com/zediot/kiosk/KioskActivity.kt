@@ -1,4 +1,4 @@
-package com.grusio.kiosk
+package com.zediot.kiosk
 
 import android.app.AlertDialog
 import android.app.admin.DevicePolicyManager
@@ -23,14 +23,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-import com.grusio.adminlocktask.BuildConfig
-import com.grusio.adminlocktask.R
+import com.zediot.kiosk.BuildConfig
+import com.zediot.kiosk.R
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
@@ -218,9 +217,9 @@ class KioskActivity : AppCompatActivity() {
     private fun requestDeviceAdmin(){
         /**
          * @todo 需要深度获测试取权限后的操作。目前暂时使用指令来设置
-         * 	adb shell dpm set-device-owner com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
+         * 	adb shell dpm set-device-owner com.zediot.kiosk/com.zediot.kiosk.AdminReceiver
          * 	删除的指令是：
-         * 	adb shell dpm remove-active-admin com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
+         * 	adb shell dpm remove-active-admin com.zediot.kiosk/com.zediot.kiosk.AdminReceiver
          */
 
 //        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)

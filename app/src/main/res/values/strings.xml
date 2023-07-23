@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GViewer</string>
-    <string name="admin_description">GViewer Admin app</string>
+    <string name="app_name">ZedKiosk</string>
+    <string name="admin_description">ZedKiosk Admin App</string>
     <string name="title_activity_settings">Setting Page</string>
 </resources>

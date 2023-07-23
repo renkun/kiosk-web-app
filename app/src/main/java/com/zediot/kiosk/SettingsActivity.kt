@@ -1,4 +1,4 @@
-package com.grusio.kiosk
+package com.zediot.kiosk
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.grusio.adminlocktask.R
+import com.zediot.kiosk.R
 
 class SettingsActivity : AppCompatActivity() {
 

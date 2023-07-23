@@ -3,24 +3,33 @@ plugins {
     id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
 }
+def loadProperties() {
+    def props = new Properties()
 
-ext {
-    APPCENTER_SECRET = '7ac50419-0d8a-4ff7-9901-25501ff07983'
+    def propFile = new File("local.properties")
+    if (propFile.canRead()) {
+        propFile.withInputStream { props.load(it) }
+    } else {
+        throw new GradleException("Could not read local.properties. Make sure you have copied local.properties.example to local.properties and filled in your own values")
+    }
+    return props
 }
 
+def props = loadProperties()
+def appCenterSecret = props.getProperty('app.appcenter_secret', 'defaultSecret');
 
 android {
-    compileSdk 34
+    compileSdk 31
 
     defaultConfig {
-        applicationId "com.grusio.kiosk"
+        applicationId 'com.zediot.kiosk'
         minSdk 21
         targetSdk 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "APPCENTER_SECRET", "\"${APPCENTER_SECRET}\"")
+        buildConfigField 'String', 'APPCENTER_SECRET', "\"${appCenterSecret}\""
     }
 
     buildTypes {
@@ -36,7 +45,7 @@ android {
     kotlinOptions {
         jvmTarget = '11'
     }
-    namespace 'com.grusio.adminlocktask'
+    namespace 'com.zediot.kiosk'
 }
 
 dependencies {

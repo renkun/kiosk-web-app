@@ -1,4 +1,4 @@
-package com.grusio.kiosk
+package com.zediot.kiosk
 
 import android.content.Context
 import android.net.ConnectivityManager

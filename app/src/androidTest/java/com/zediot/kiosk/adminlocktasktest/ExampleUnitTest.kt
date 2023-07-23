@@ -1,4 +1,4 @@
-package com.kiosk.adminlocktasktest
+package com.zediot.kiosk.adminlocktasktest
 
 import org.junit.Test
 

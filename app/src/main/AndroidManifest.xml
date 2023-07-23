@@ -17,11 +17,11 @@
         android:testOnly="true"
         android:theme="@style/Theme.AdminLockTaskTest">
         <activity
-            android:name="com.grusio.kiosk.SettingsActivity"
+            android:name="com.zediot.kiosk.SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />
         <activity
-            android:name="com.grusio.kiosk.KioskActivity"
+            android:name="com.zediot.kiosk.KioskActivity"
             android:exported="true"
             android:lockTaskMode="if_whitelisted"
             android:screenOrientation="sensor"
@@ -35,7 +35,7 @@
         </activity>
 
         <receiver
-            android:name="com.grusio.kiosk.AdminReceiver"
+            android:name="com.zediot.kiosk.AdminReceiver"
             android:description="@string/admin_description"
             android:exported="true"
             android:label="@string/app_name"
