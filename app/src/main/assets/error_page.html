@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            background-color: #333;
+            color: #f7f7f7;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 42px;
+        }
+    </style>
+
+    <script>
+      function reloadOrginalPage() {
+        window.location.href = window.location.search.substr(1);;
+      }
+      setTimeout(reloadOrginalPage, 5000);
+    </script>
+</head>
+<body>
+    <img src="file:///android_res/drawable/error_icon.png" width="128" height="128">
+    <h1>Oops!</h1>
+    <p>Connection seems error...</p>
+    <button onClick="reloadOrginalPage()">Try again</button>
+</body>
+</html>

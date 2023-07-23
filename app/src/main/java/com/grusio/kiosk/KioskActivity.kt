@@ -1,5 +1,6 @@
 package com.grusio.kiosk
 
+import android.app.AlertDialog
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
 import android.content.Intent
@@ -9,12 +10,20 @@ import android.content.pm.ActivityInfo
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
+import android.text.InputType
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.EditText
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -41,15 +50,15 @@ class KioskActivity : AppCompatActivity() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var startUrl: String
     private lateinit var serverUrl: String
+    private lateinit var settingPassword: String
 
     private var clickCounter = 0
     private val MAX_CLICK_COUNT = 10
-    private val resetDelayMs: Long = 2000 // 2秒
+    private val resetDelayMs: Long = 3000 // 3秒
+    private val resetClickCountHandler = Handler(Looper.getMainLooper())
     private val resetClickCountRunnable = Runnable {
         clickCounter = 0
     }
-
-    private val resetClickCountHandler = android.os.Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +70,7 @@ class KioskActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
         startUrl = sharedPreferences.getString("startUrl", "") ?: ""
         serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
+        settingPassword = sharedPreferences.getString("settingPassword", "") ?: ""
 
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
@@ -138,6 +148,7 @@ class KioskActivity : AppCompatActivity() {
             setSupportZoom(true)
             builtInZoomControls = true
             displayZoomControls = false
+            javaScriptEnabled= true
         }
         webView.scrollBarStyle = WebView.SCROLLBARS_OUTSIDE_OVERLAY
         webView.isScrollbarFadingEnabled = false
@@ -145,17 +156,27 @@ class KioskActivity : AppCompatActivity() {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
                 if (event?.action == MotionEvent.ACTION_DOWN) {
                     clickCounter++
-                    resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
-                    resetClickCountHandler.postDelayed(resetClickCountRunnable, resetDelayMs)
+                    if(clickCounter === 1) {
+                        resetClickCountHandler.postDelayed(resetClickCountRunnable, resetDelayMs)
+                    }
                     if (clickCounter >= MAX_CLICK_COUNT) {
-                        showSettingsActivity()
-                        resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
+                        showPasswordDialog()
                         clickCounter = 0
+                        resetClickCountHandler.removeCallbacks(resetClickCountRunnable)
                     }
                 }
                 return false
             }
         })
+        webView.webViewClient = object : WebViewClient() {
+            override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
+                super.onReceivedError(view, request, error)
+                // 设置并加载自定义错误页面
+                if (request?.isForMainFrame == true) {
+                    view.loadUrl("file:///android_asset/error_page.html?${startUrl}")
+                }
+            }
+        }
         webView.loadUrl(startUrl)
     }
 
@@ -197,10 +218,11 @@ class KioskActivity : AppCompatActivity() {
     private fun requestDeviceAdmin(){
         /**
          * @todo 需要深度获测试取权限后的操作。目前暂时使用指令来设置
-         * 	adb  shell dpm set-device-owner com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
+         * 	adb shell dpm set-device-owner com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
          * 	删除的指令是：
          * 	adb shell dpm remove-active-admin com.grusio.kiosk/com.grusio.kiosk.AdminReceiver
          */
+
 //        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
 //        intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, adminComponentName)
 //        intent.putExtra(
@@ -209,6 +231,12 @@ class KioskActivity : AppCompatActivity() {
 //        )
 //        startActivityForResult(intent, REQUEST_ENABLE_DEVICE_ADMIN)
     }
+
+    private fun removeDeviceAdmin(){
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN)
+        intent.removeExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_ENABLE_DEVICE_ADMIN) {
@@ -220,6 +248,28 @@ class KioskActivity : AppCompatActivity() {
         }
     }
 
+    private fun showPasswordDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Enter Password")
+
+        val input = EditText(this)
+        input.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        builder.setView(input)
+
+        builder.setPositiveButton("OK") { _, _ ->
+            val enteredPassword = input.text.toString()
+            if (settingPassword.length === 0 || enteredPassword.sha256() == settingPassword) {
+                showSettingsActivity()
+            } else {
+                Toast.makeText(applicationContext, "Invalid password!", Toast.LENGTH_SHORT).show()
+            }
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+        builder.setCancelable(false)
+        builder.show()
+    }
     private fun showSettingsActivity() {
         val intent = Intent(this, SettingsActivity::class.java)
         startActivity(intent)

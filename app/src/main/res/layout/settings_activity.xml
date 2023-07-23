@@ -34,10 +34,74 @@
         android:hint="Enter server url"
         android:inputType="text" />
 
-    <Button
-        android:id="@+id/saveButton"
+    <Space
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save" />
+        android:background="@color/cardview_shadow_start_color"
+        android:backgroundTintMode="screen"
+        android:minHeight="20dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Password to Open Setting Page" />
+
+    <EditText
+        android:id="@+id/settingPasswordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Enter to update the password"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Confirm Password" />
+
+    <EditText
+        android:id="@+id/confirmPasswordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Confirm your password"
+        android:inputType="textPassword" />
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:clickable="false" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:gravity="bottom|center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="Save" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:text="Cancel" />
+
+    </LinearLayout>
 
 </LinearLayout>
