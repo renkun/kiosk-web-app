@@ -3,20 +3,15 @@ plugins {
     id 'kotlin-android'
     id 'org.jetbrains.kotlin.android'
 }
-def loadProperties() {
-    def props = new Properties()
 
-    def propFile = new File("local.properties")
-    if (propFile.canRead()) {
-        propFile.withInputStream { props.load(it) }
-    } else {
-        throw new GradleException("Could not read local.properties. Make sure you have copied local.properties.example to local.properties and filled in your own values")
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withInputStream { stream ->
+        localProperties.load(stream)
     }
-    return props
 }
-
-def props = loadProperties()
-def appCenterSecret = props.getProperty('app.appcenter_secret', 'defaultSecret');
+def appCenterSecret = localProperties.getProperty('app.appcenter_secret') ?: System.getenv("APPCENTER_SECRET")
 
 android {
     compileSdk 31
