@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
-# Add the following lines to your appcenter-post-clone.sh script
-echo "org.gradle.jvmargs=-Xmx1536m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
-echo "org.gradle.console=plain" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
-echo "org.gradle.build.scan=true" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
-echo "org.gradle.daemon=true" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
-echo "org.gradle.parallel=true" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
-echo "org.gradle.configureondemand=true" >> $APPCENTER_SOURCE_DIRECTORY/gradle.properties
+# 创建 local.properties 文件
+touch local.properties
+
+# 使用环境变量填充 local.properties 文件
+echo "sdk.dir=$ANDROID_HOME" >> local.properties
+echo "app.appcenter_secret=$APPCENTER_SECRET" >> local.properties
