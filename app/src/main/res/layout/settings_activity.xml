@@ -25,14 +25,18 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Server Url" />
+        android:text="Server Url"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <EditText
         android:id="@+id/serverUrlEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter server url"
-        android:inputType="text" />
+        android:inputType="text"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <Space
         android:layout_width="match_parent"

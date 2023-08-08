@@ -1,5 +1,6 @@
 package com.zediot.kiosk
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
@@ -23,6 +24,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -58,7 +60,12 @@ class KioskActivity : AppCompatActivity() {
     private val resetClickCountRunnable = Runnable {
         clickCounter = 0
     }
-
+    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadConfig()
+            webView.loadUrl(startUrl)
+        }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -66,12 +73,8 @@ class KioskActivity : AppCompatActivity() {
         showInFullScreen(findViewById(R.id.root))
         initVars()
 
-        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
-        startUrl = sharedPreferences.getString("startUrl", "") ?: ""
-        serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
-        settingPassword = sharedPreferences.getString("settingPassword", "") ?: ""
-
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        loadConfig()
 
         setupWebView()
         listenToConnectionChange()
@@ -116,6 +119,13 @@ class KioskActivity : AppCompatActivity() {
         reloadOnConnected = ReloadOnConnected(webView)
         adminComponentName = AdminReceiver.getComponentName(this)
         policyManager = getSystemService(DEVICE_POLICY_SERVICE) as DevicePolicyManager
+    }
+
+    private fun loadConfig() {
+        sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
+        startUrl = sharedPreferences.getString("startUrl", "") ?: ""
+        serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
+        settingPassword = sharedPreferences.getString("settingPassword", "") ?: ""
     }
 
     private fun initAppCenter() {
@@ -271,7 +281,7 @@ class KioskActivity : AppCompatActivity() {
     }
     private fun showSettingsActivity() {
         val intent = Intent(this, SettingsActivity::class.java)
-        startActivity(intent)
+        startForResult.launch(intent)
     }
 
 }

@@ -1,6 +1,8 @@
 package com.zediot.kiosk
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -62,6 +64,9 @@ class SettingsActivity : AppCompatActivity() {
         editor.putString("serverUrl", serverUrl)
         editor.putString("settingPassword", settingPassword.sha256())
         editor.apply()
+        val data = Intent()
+        // 可以在data中放入一些返回的数据，如果需要的话
+        setResult(Activity.RESULT_OK, data)
         finish()
     }
 

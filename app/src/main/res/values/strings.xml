@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ZedKiosk</string>
-    <string name="admin_description">ZedKiosk Admin App</string>
+    <string name="app_name">Web Launcher</string>
+    <string name="admin_description">Web Launcher Admin App</string>
     <string name="title_activity_settings">Setting Page</string>
 </resources>
