@@ -2,4 +2,12 @@
     <string name="app_name">Web Launcher</string>
     <string name="admin_description">Web Launcher Admin App</string>
     <string name="title_activity_settings">Setting Page</string>
+    <string name="start_url">Start URL</string>
+    <string name="start_url_hint">Enter Start URL</string>
+    <string name="server_url">Server URL</string>
+    <string name="server_url_hint">Enter Configuration Server URL</string>
+    <string name="password_text">Password to Open Setting Page</string>
+    <string name="password_hint">Enter to update the password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="confirm_password_hint">Confirm your password</string>
 </resources>

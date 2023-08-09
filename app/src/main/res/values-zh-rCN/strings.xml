@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">网页启动器</string>
+    <string name="admin_description">网页启动器管理</string>
+    <string name="title_activity_settings">设置</string>
+    <string name="start_url">启动URL</string>
+    <string name="start_url_hint">请输入开机自启动的URL</string>
+    <string name="server_url">配置服务器</string>
+    <string name="server_url_hint">请输入配置服务器URL</string>
+    <string name="password_text">密码</string>
+    <string name="password_hint">更新请输入密码</string>
+    <string name="confirm_password">确认密码</string>
+    <string name="confirm_password_hint">请输入确认密码</string>
+</resources>

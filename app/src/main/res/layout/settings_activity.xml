@@ -11,21 +11,22 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Url" />
+        android:text="@string/start_url" />
 
     <EditText
         android:id="@+id/startUrlEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter start url"
+        android:hint="@string/start_url_hint"
         android:inputType="text"
+        android:minHeight="48dp"
         android:visibility="visible" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Server Url"
+        android:text="@string/server_url"
         android:visibility="gone"
         tools:visibility="gone" />
 
@@ -33,7 +34,7 @@
         android:id="@+id/serverUrlEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter server url"
+        android:hint="@string/server_url_hint"
         android:inputType="text"
         android:visibility="gone"
         tools:visibility="gone" />
@@ -49,29 +50,31 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Password to Open Setting Page" />
+        android:text="@string/password_text" />
 
     <EditText
         android:id="@+id/settingPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Enter to update the password"
-        android:inputType="textPassword" />
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Password" />
+        android:text="@string/confirm_password" />
 
     <EditText
         android:id="@+id/confirmPasswordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Confirm your password"
-        android:inputType="textPassword" />
+        android:hint="@string/confirm_password_hint"
+        android:inputType="textPassword"
+        android:minHeight="48dp" />
 
     <Space
         android:layout_width="match_parent"
