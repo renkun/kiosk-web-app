@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
         confirmPasswordEditText = findViewById(R.id.confirmPasswordEditText)
 
         sharedPreferences = getSharedPreferences("config", Context.MODE_PRIVATE)
-        val savedStartUrl = sharedPreferences.getString("startUrl", "")
+        val savedStartUrl = sharedPreferences.getString("startUrl", "file:///android_asset/default.png")
         val savedServerUrl = sharedPreferences.getString("serverUrl", "")
         val savedSettingPassword = sharedPreferences.getString("settingPassword", "")
 

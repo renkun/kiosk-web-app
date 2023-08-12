@@ -53,6 +53,8 @@ class KioskActivity : AppCompatActivity() {
     private lateinit var serverUrl: String
     private lateinit var settingPassword: String
 
+    private val DEFAULT_PAGE = "file:///android_asset/default.png"
+
     private var clickCounter = 0
     private val MAX_CLICK_COUNT = 10
     private val resetDelayMs: Long = 3000 // 3秒
@@ -123,7 +125,10 @@ class KioskActivity : AppCompatActivity() {
 
     private fun loadConfig() {
         sharedPreferences = getSharedPreferences("config", MODE_PRIVATE)
-        startUrl = sharedPreferences.getString("startUrl", "") ?: ""
+        startUrl = sharedPreferences.getString("startUrl", DEFAULT_PAGE) ?: ""
+        if(startUrl.length < 5) {
+            startUrl = DEFAULT_PAGE
+        }
         serverUrl = sharedPreferences.getString("serverUrl", "") ?: ""
         settingPassword = sharedPreferences.getString("settingPassword", "") ?: ""
     }
