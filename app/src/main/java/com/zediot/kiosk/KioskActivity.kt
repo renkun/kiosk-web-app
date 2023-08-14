@@ -35,7 +35,7 @@ import com.zediot.kiosk.R
 import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
-import com.microsoft.appcenter.distribute.Distribute
+//import com.microsoft.appcenter.distribute.Distribute
 //import com.microsoft.appcenter.distribute.UpdateTrack
 
 
@@ -139,7 +139,9 @@ class KioskActivity : AppCompatActivity() {
         if (appSecret != null) {
             AppCenter.start(
                 application, appSecret,
-                Analytics::class.java, Crashes::class.java, Distribute::class.java
+                Analytics::class.java,
+                Crashes::class.java
+                //, Distribute::class.java
             )
 
             // 配置自动更新的设置
