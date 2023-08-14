@@ -1,4 +1,4 @@
-## Kiosk mode app
+## Kiosk WebView Launcher APP
 ###### Simple Android web-view-based application.
 ###### The primary purpose is to show the website in Kiosk mode.
 
@@ -6,6 +6,6 @@ By default, the app works in Screen pinning mode. Users can unpin the app by hol
 
 To forbid any possible system buttons interactions, need to mark the app as device owner by the next adb command:
 ```
-adb shell dpm set-device-owner com.kiosk.kiosk/.AdminReceiver
+adb  shell dpm set-device-owner com.zediot.kiosk/.AdminReceiver
 ```
 Inspired by [this article](https://snow.dog/blog/kiosk-mode-android/).
