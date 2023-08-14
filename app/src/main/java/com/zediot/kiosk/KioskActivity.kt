@@ -36,7 +36,7 @@ import com.microsoft.appcenter.AppCenter
 import com.microsoft.appcenter.analytics.Analytics
 import com.microsoft.appcenter.crashes.Crashes
 import com.microsoft.appcenter.distribute.Distribute
-import com.microsoft.appcenter.distribute.UpdateTrack
+//import com.microsoft.appcenter.distribute.UpdateTrack
 
 
 class KioskActivity : AppCompatActivity() {
@@ -143,10 +143,10 @@ class KioskActivity : AppCompatActivity() {
             )
 
             // 配置自动更新的设置
-            Distribute.setEnabledForDebuggableBuild(true) // 允许在调试版本中使用自动更新（可选）
+//            Distribute.setEnabledForDebuggableBuild(true) // 允许在调试版本中使用自动更新（可选）
 //            Distribute.setInstallUrl("<Your-Install-URL>") // 设置自定义的安装 URL（可选）
-            Distribute.setUpdateTrack(UpdateTrack.PUBLIC) // 设置更新跟踪策略，可以根据需要修改
-            Distribute.setEnabled(true) // 启用自动更新
+//            Distribute.setUpdateTrack(UpdateTrack.PUBLIC) // 设置更新跟踪策略，可以根据需要修改
+//            Distribute.setEnabled(true) // 启用自动更新
         } else {
             println("AppCenter Secret not found.")
         }
