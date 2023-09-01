@@ -14,12 +14,12 @@ if (localPropertiesFile.exists()) {
 def appCenterSecret = localProperties.getProperty('app.appcenter_secret') ?: System.getenv("APPCENTER_SECRET")
 
 android {
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId 'com.zediot.kiosk'
         minSdk 21
-        targetSdk 31
+        targetSdk 33
         versionCode 2
         versionName "1.1"
 
